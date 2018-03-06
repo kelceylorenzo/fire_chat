@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { db } from '../firebase';
 import { getRoomData, getChatLog, sendNewMessage } from '../actions';
 
@@ -50,6 +51,9 @@ class ChatRoom extends Component {
 
 		return (
 			<div>
+				<Link to="/" className="btn">
+					Back To Lobby
+				</Link>
 				<h3>{name ? name : 'Loading ...'}</h3>
 				<form onSubmit={this.sendMessage.bind(this)}>
 					<label>Enter Message</label>
