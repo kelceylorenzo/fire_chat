@@ -20,6 +20,10 @@ class ChatRoom extends Component {
 		});
 	}
 
+	componentWillUnmount() {
+		db.ref(`/chat-logs/${this.props.match.params.logID}`).off();
+	}
+
 	sendMessage(e) {
 		e.preventDefault();
 
