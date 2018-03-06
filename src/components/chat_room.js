@@ -13,17 +13,15 @@ class ChatRoom extends Component {
 	componentDidMount() {
 		const { roomId, logId } = this.props.match.params;
 
-		this.props.getRoomData(roomId, logId);
+		this.props.getRoomData(roomId);
+
+		db.ref(`/chat-logs/${logId}`).on('value', (snapshot) => {
+			this.props.getChatLog(snapshot.val());
+		});
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (!this.props.roomInfo.chatLogId && nextProps.roomInfo.chatLogId) {
-			console.log('We now have chat log ID');
-
-			db.ref(`/chat-logs/${nextProps.roomInfo.chatLogId}`).on('value', (snapshot) => {
-				this.props.getChatLog(snapshot.val());
-			});
-		}
+	componentWillUnmount() {
+		db.ref(`/chat-logs/${this.props.match.params.logID}`).off();
 	}
 
 	sendMessage(e) {
